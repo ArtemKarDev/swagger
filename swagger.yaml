@@ -1,13 +1,7 @@
 openapi: 3.0.0
 info:
-  version: 1.0.0
   title: Магазин игрушек OpenAPI спецификация.
-  license:
-    name: MIT
-  description:  Toys Shop API
-
-host: "petstore.swagger.io"
-basePath: "/v2"
+  version: 0.0.1
 servers: 
   - url: http://localhost:8080/api/v1/
     description:  Dev server
@@ -19,46 +13,131 @@ paths:
         - Toys
       operationId: getAllToys
       responses: 
-        '200': 
-          descriptions: Успешный ответ со списком игрушек
+        '200':
+          description: Успешный ответ со списком игрушек
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Toys"
-        'default': 
-          descriptions: Всё не стандартное
+        'default':
+          description: Всё не стандартное
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+    post:
+      summary: Метод создания игрушки
+      tags:
+        - Toys
+      operationId: createToy
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Toy"
+      responses: 
+        '200':
+          description: Успешный ответ создания игрушки
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Toy"
+        'default':
+          description: Всё не стандартное
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+                
   /toys/{toy_id}:
     get:
       summary: Метод получения игрушеки по идентификатору
       tags:
         - Toys
       operationId: getToyById
-      parametrs:
+      parameters:
         - name: toy_id
-        in: path
-        required: true
-        description: Идентификатор игрушки
-        schema:
-          type: string
+          in: path
+          required: true
+          description: Идентификатор игрушки
+          schema:
+            type: string
+          example: 12312312
       responses: 
-        '200': 
-          descriptions: Успешный ответ со списком игрушек
+        '200':
+          description: Успешный ответ с игрушкой
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Toys"
-        'default': 
+                $ref: "#/components/schemas/Toy"
+        'default':
           description: Всё не стандартное
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"  
+                $ref: "#/components/schemas/Error"
 
 
+
+    put:
+      summary: Метод изменения игрушки по идентификатору
+      tags:
+        - Toys
+      operationId: putToyById
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Toy"      
+      parameters:
+        - name: toy_id
+          in: path
+          required: true
+          description: Идентификатор игрушки
+          schema:
+            type: string
+          example: 12312312
+      responses: 
+        '200':
+          description: Успешный ответ с измененной игрушкой
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Toy"
+        'default':
+          description: Всё не стандартное
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"                 
+      
+    delete:
+      summary: Метод удаления игрушки по идентификатору
+      tags:
+        - Toys
+      operationId: deleteToyById
+      parameters:
+        - name: toy_id
+          in: path
+          required: true
+          description: Идентификатор игрушки
+          schema:
+            type: string
+          example: 12312312
+      responses:
+        '200':
+          description: Успешное удаление
+          content:
+            application/json: {}
+        'default':
+          description: Всё не стандартное
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
               
 components:
   schemas:
@@ -98,5 +177,3 @@ components:
           type: integer
         message:
           type: string
-    
-    
